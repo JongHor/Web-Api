@@ -3,7 +3,7 @@ const router = express.Router()
 require('dotenv').config()
 
 // import model
-const Transaction = require('../models/transactionModel')
+const Hor = require('../models/horModel')
 const User = require('../models/userModel')
 
 const mongoose = require('mongoose')
@@ -22,7 +22,7 @@ const auth = require("../middleware/auth")
 
 /************************ User Endpoint ********************************************/
 
-router.post('/users',async (req,res) => {
+router.post('/users/signup',async (req,res) => {
     try {
         const user = new User(req.body)
         
@@ -86,31 +86,33 @@ router.post('/users/logoutall',auth, async(req,res) => {
 
 /************************ Transaction Endpoint ********************************************/
 
-// when you get method you send something move endpoint to /api/transactions
-router.get('/transactions',auth,async (req,res,next) => {
+// when you get method you send something move endpoint to /api/hor
+// It's Work
+router.get('/hor',auth,async (req,res,next) => {
     const user = req.user
     try{
-        const transaction = await Transaction.find({_uid: user._id})
-        res.status(200).json(transaction)
+        const hor = await Hor.find()
+        res.status(200).json(hor)
     }catch(err){
         res.status(500).json({error:err.message})
     }
 })
 
-router.get('/transactions/:id',auth, async(req,res,next) => {
+// get hor by id
+router.get('/hor/:id',auth, async(req,res,next) => {
     // check transactions
     const user = req.user
     try{
-        const t = await Transaction.find({_uid: user._id,_id:req.params.id})
+        const t = await Hor.find({_uid:req.params.id})
         res.status(200).json(t)
     }catch(err){
         res.status(500).json({error:'transaction not found'})
     }
 })
 
-router.post('/transactions',auth,async (req,res) => {
+router.post('/hor',auth,async (req,res) => {
     const user = req.user
-    const t = new Transaction(req.body)
+    const t = new Hor(req.body)
     t._uid = user._id
 
     try{
@@ -122,10 +124,11 @@ router.post('/transactions',auth,async (req,res) => {
     }
 })
 
-router.delete('/transactions/:id' , auth ,async (req,res)=>{
+// delete Hor
+router.delete('/hor/:id' , auth ,async (req,res)=>{
     const user = req.user
     try{
-        const t = await Transaction.findByIdAndDelete({_id:req.params.id,_uid:user._id})
+        const t = await Hor.findByIdAndDelete({_id:req.params.id,_uid:user._id})
         res.status(200).json({message:"delete successful!"})
     }catch(err){
         res.status(500).json({eror:err.message})
@@ -133,7 +136,8 @@ router.delete('/transactions/:id' , auth ,async (req,res)=>{
    
 })
 
-router.put('/transactions/:id',auth,async (req,res)=>{
+// update when you book room
+router.put('/hor/:id',auth,async (req,res)=>{
     const user = req.user
     const update_t = {
         name: req.body.name,
@@ -141,7 +145,7 @@ router.put('/transactions/:id',auth,async (req,res)=>{
         updated: new Date()
     }
     try{
-        const t = await Transaction.findByIdAndUpdate(req.params.id,update_t,{new:true})
+        const t = await Hor.findByIdAndUpdate(req.params.id,update_t,{new:true})
         if(!t)
             res.status(404).json({error:'Update::transaction not found'})
         res.status(200).json(t)
@@ -150,8 +154,8 @@ router.put('/transactions/:id',auth,async (req,res)=>{
     }
 })
 
-router.get("/:uid/transactions",(req,res,next)=>{
-    res.json({uid:req.params.uid,treansactions:transactions})
+router.get("/:uid/hor",(req,res,next)=>{
+    res.json({uid:req.params.uid,hor:hor})
 })
 
 module.exports = router

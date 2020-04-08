@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
         }},
     password:{type: String,required:true,minlength:6},
     admin:{type: Boolean, default: false},
+    booked:{type: Boolean, default: false},
     tokens:[{
         token:{type: String, required:true}
     }],

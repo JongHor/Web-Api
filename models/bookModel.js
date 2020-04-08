@@ -1,12 +1,16 @@
 const mongoose = require("mongoose")
 
-const transactionSchema = new mongoose.Schema({
+const bookSchema = new mongoose.Schema({
     _uid:{type:mongoose.ObjectId,required:true},
-    name: {
+    userId: {
         type: String,
         required:true
     },
-    amount:{
+    hor:{
+        type: String,
+        required:true
+    },
+    room:{
         type:Number,
         required:true
     },
@@ -14,13 +18,8 @@ const transactionSchema = new mongoose.Schema({
         type:Date,
         required:true,
         default:Date.now
-    },
-    updated:{
-        type:Date,
-        required: true,
-        default: Date.now
     }
 })
 
 //.model(export-name,schema,collection-name) 
-module.exports = mongoose.model('Transaction',transactionSchema)
+module.exports = mongoose.model('Book',bookSchema)
