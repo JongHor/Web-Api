@@ -4,7 +4,10 @@ const jwt = require('jsonwebtoken')
 const validator = require('validator')
 
 const userSchema = new mongoose.Schema({
-    name: {type: String, required:true, trim:true},
+    firstname:{type: String, required:true, trim:true},
+    lastname:{type: String, required:true, trim:true},
+    username: {type: String, required:true, trim:true,unique:true},
+    gender:{type:String, required:true},
     email:{type: String, required:true, unique:true, lowercase: true,
         validator:(value)=>{
             if(!validator.isEmail(value)){
@@ -52,9 +55,15 @@ userSchema.methods.generateAuthToken = async function(){
     return token
 }
 
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+
 userSchema.statics.findByCredentials = async (email, password) => {
     try{
-        const user = await User.findOne({email})
+        var criteria = (email.indexOf('@') === -1) ? {username: email} : {email: email};
+        user =  await User.findOne(criteria)
         if(!user){
             throw new Error()
         }
