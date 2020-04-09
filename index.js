@@ -1,6 +1,7 @@
 const express  = require('express')
 const bodyParser = require("body-parser")
 const cors = require('cors');
+const aws = require('aws-sdk');
 require('dotenv').config()
 
 const PORT = process.env.PORT || 3000
