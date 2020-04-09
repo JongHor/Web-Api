@@ -87,6 +87,7 @@ router.post('/users/logoutall',auth, async(req,res) => {
     }
 })
 
+// update user data
 router.put('/users/edit/:id',auth,async(req,res)=>{
     const user = req.user
     const password_t = await bcrypt.hash(req.body.password, 10)
@@ -113,7 +114,7 @@ router.put('/users/edit/:id',auth,async(req,res)=>{
 
 // when you get method you send something move endpoint to /api/hor
 // It's Work
-router.get('/hor',async (req,res,next) => {
+router.get('/hor',auth,async (req,res,next) => {
     const user = req.user
     try{
         const hor = await Hor.find()
@@ -172,10 +173,10 @@ router.put('/hor/:id',auth,async (req,res)=>{
     try{
         const t = await Hor.findByIdAndUpdate(req.params.id,update_t,{new:true})
         if(!t)
-            res.status(404).json({error:'Update::transaction not found'})
-        res.status(200).json(t)
+            res.send({error:'Update::transaction not found'})
+        res.send(t)
     }catch(err){
-        res.status(500).json({eror:err.message})
+        res.send({eror:err.message})
     }
 })
 
