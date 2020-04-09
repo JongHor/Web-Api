@@ -96,7 +96,7 @@ router.put('/users/edit/:id',auth,async(req,res)=>{
         updated:Date.now()
     }
     try{
-        const t = await Hor.findByIdAndUpdate(req.params.id,update_t,{new:true})
+        const t = await User.findByIdAndUpdate(req.params.id,update_t,{new:true})
         if(!t)
             res.status(404).json({error:'Update::transaction not found'})
         res.status(200).json(t)
