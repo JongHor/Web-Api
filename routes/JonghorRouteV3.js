@@ -7,21 +7,24 @@ const Hor = require('../models/horModel')
 const User = require('../models/userModel')
 
 const mongoose = require('mongoose')
-const conStr  = process.env.DATABASE_URL.replace("<password>",process.env.DATABASE_PWD)
-                                        .replace("<database>",process.env.DATABASE_NAME)
+const conStr  = String(process.env.DATABASE_URL)
 mongoose.connect(conStr,{useNewUrlParser:true,
                         useUnifiedTopology:true,
                         useFindAndModify:false,
                         useCreateIndex: true})
 const db = mongoose.connection
-db.on('error',() => console.log("Database connection error"))
-db.once("open",()=> console.log("Database connected"))
+
+var teaa = null
+db.on('error',() => {teaa=false;console.log("Database connection error")})
+db.once("open",()=> {teaa=true;console.log("Database connected")})
 
 // import authentication middleware
 const auth = require("../middleware/auth")
 
 /************************ User Endpoint ********************************************/
-
+router.post('/test',(req,res)=>{
+    res.send(teaa)
+})
 router.post('/users/signup',async (req,res) => {
     try {
         const user = new User(req.body)
@@ -43,13 +46,13 @@ router.post('/users/login',async (req,res) => {
         const user = await User.findByCredentials(email,password)
 
         if(!user){
-            return res.status(200).json({error: 'Login failed, please check your credentials'})
+            res.send("connot from Express on Firebase!")
         }
 
         const token = await user.generateAuthToken()
-        res.status(200).json({token})
+        res.send({token})
     }catch(error){
-        res.status(400).json({error:error.message})
+        res.send({error:error.message,req})
     }
 })
 
@@ -88,13 +91,13 @@ router.post('/users/logoutall',auth, async(req,res) => {
 
 // when you get method you send something move endpoint to /api/hor
 // It's Work
-router.get('/hor',auth,async (req,res,next) => {
+router.get('/hor',async (req,res,next) => {
     const user = req.user
     try{
         const hor = await Hor.find()
-        res.status(200).json(hor)
+        res.send(hor)
     }catch(err){
-        res.status(500).json({error:err.message})
+        res.send({error:err.message})
     }
 })
 
