@@ -25,9 +25,6 @@ db.once("open",()=> {teaa=true;console.log("Database connected")})
 const auth = require("../middleware/auth")
 
 /************************ User Endpoint ********************************************/
-router.post('/test',(req,res)=>{
-    res.send(teaa)
-})
 router.post('/users/signup',async (req,res) => {
     try {
         const user = new User(req.body)
@@ -37,9 +34,9 @@ router.post('/users/signup',async (req,res) => {
         const token =  await user.generateAuthToken()
 
 
-        res.status(201).json({ msg: 'add user successful',user,token})
+        res.send({ msg: 'add user successful',user,token})
     } catch (error){
-        res.status(400).json({error:error.message})
+        res.send({error:error.message})
     }
 })
 
@@ -49,7 +46,7 @@ router.post('/users/login',async (req,res) => {
         const user = await User.findByCredentials(email,password)
 
         if(!user){
-            res.send("connot from Express on Firebase!")
+            res.send("You Not My Member!!! please sign up ")
         }
 
         const token = await user.generateAuthToken()
@@ -61,7 +58,7 @@ router.post('/users/login',async (req,res) => {
 
 router.get('/users/me',auth,(req,res) => {
     const user = req.user
-    res.status(201).json({user})
+    res.send({user})
 })
 
 router.get('/users/logout',auth,async (req,res) => {
@@ -71,9 +68,9 @@ router.get('/users/logout',auth,async (req,res) => {
     try{
         user.tokens = user.tokens.filter( item => {return item.token!==current_token})
         await user.save()
-        res.status(201).json({msg:'log out successful'})
+        res.send({msg:'log out successful'})
     }catch(error){
-        res.status(500).json({error:error.message})
+        res.send({error:error.message})
     }
 })
 
@@ -83,11 +80,29 @@ router.post('/users/logoutall',auth, async(req,res) => {
         // remove item [0] to item [(n-1)]
         user.tokens.splice(0,user.tokens.length)
         await user.save()
-        res.status(201).json({mesg:'log out all successful'})
+        res.send({mesg:'log out all successful'})
     }catch(error){
-        res.status(500).json({error:error.message})
+        res.send({error:error.message})
     }
-    
+})
+
+router.put('/users/edit/:id',auth,async(req,res)=>{
+    const update_t = {
+        firstname:req.body.firstname,
+        lastname:req.body.lastname,
+        username:req.body.username,
+        email:req.body.email,
+        password:req.body.password,
+        updated:Date.now()
+    }
+    try{
+        const t = await Hor.findByIdAndUpdate(req.params.id,update_t,{new:true})
+        if(!t)
+            res.status(404).json({error:'Update::transaction not found'})
+        res.status(200).json(t)
+    }catch(err){
+        res.status(500).json({eror:err.message})
+    }
 })
 
 /************************ Transaction Endpoint ********************************************/
