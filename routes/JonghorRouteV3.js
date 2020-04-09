@@ -7,7 +7,9 @@ const Hor = require('../models/horModel')
 const User = require('../models/userModel')
 
 const mongoose = require('mongoose')
-const conStr  = String(process.env.DATABASE_URL)
+const conStr  = process.env.MONGGODB_URI || 'mongodb://localhost/users'
+mongoose.Promise = global.Promise
+mongoose.set('debug',true)
 mongoose.connect(conStr,{useNewUrlParser:true,
                         useUnifiedTopology:true,
                         useFindAndModify:false,

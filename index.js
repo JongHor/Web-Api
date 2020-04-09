@@ -3,6 +3,7 @@ const bodyParser = require("body-parser")
 const cors = require('cors');
 require('dotenv').config()
 
+const PORT = process.env.PORT || 3000
 
 // application object
 const app = express()
@@ -22,10 +23,10 @@ const RouterV3 = require("./routes/JonghorRouteV3")
 app.use('/api/v3',RouterV3)
 
 
-const PORT = process.env.PORT
-const HOSTNAME = process.env.HOSTNAME
+// const PORT = process.env.PORT
+// const HOSTNAME = process.env.HOSTNAME
 
-// // run on port 3000
-app.listen(PORT,HOSTNAME, () => {
-    console.log("server is listening at port: "+HOSTNAME+":"+PORT)
+// // // run on port 3000
+app.listen(PORT, () => {
+    console.log(`server is listening at port: ${PORT}`)
 })
