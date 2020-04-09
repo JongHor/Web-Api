@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 require('dotenv').config()
+const bcrypt = require('bcryptjs')
 
 // import model
 const Hor = require('../models/horModel')
@@ -88,12 +89,13 @@ router.post('/users/logoutall',auth, async(req,res) => {
 
 router.put('/users/edit/:id',auth,async(req,res)=>{
     const user = req.user
+    const password_t = await bcrypt.hash(req.body.password, 10)
     const update_t = {
         firstname:req.body.firstname,
         lastname:req.body.lastname,
         username:req.body.username,
         email:req.body.email,
-        password:req.body.password,
+        password:password_t,
         updated:Date.now()
     }
     try{
