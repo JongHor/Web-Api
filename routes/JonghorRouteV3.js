@@ -97,7 +97,8 @@ router.put('/users/edit/:id',auth,async(req,res)=>{
         username:req.body.username,
         email:req.body.email,
         password:password_t,
-        updated:Date.now()
+        updated:Date.now(),
+        booked:req.body.booked|false
     }
     try{
         const t = await User.findByIdAndUpdate(req.params.id,update_t,{new:true})
