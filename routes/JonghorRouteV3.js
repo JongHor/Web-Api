@@ -166,9 +166,9 @@ router.delete('/hor/:id' , auth ,async (req,res)=>{
 router.put('/hor/:id',auth,async (req,res)=>{
     const user = req.user
     const update_t = {
-        name: req.body.name,
-        amount: Number(req.body.amount),
-        updated: new Date()
+        name:req.body.name,
+        gender:req.body.gender,
+        stairs:req.body.stairs
     }
     try{
         const t = await Hor.findByIdAndUpdate(req.params.id,update_t,{new:true})
