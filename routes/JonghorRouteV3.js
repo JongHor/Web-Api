@@ -42,13 +42,20 @@ router.post('/users/signup',async (req,res) => {
     }
 })
 
-router.put('/users/book',auth,async (req,res) => {
+router.put('/users/book/:id',auth,async(req,res)=>{
     const user = req.user
-    try {
-        const  update = await User.findOneAndUpdate(user, req.body.booked);
-        res.send({update})
-    } catch (error){
-        res.send({error:error.message})
+    const password_t = await bcrypt.hash(req.body.password, 10)
+    const update_t = {
+        booked:req.body.booked
+    }
+    try{
+        const t = await User.findByIdAndUpdate(req.params.id,update_t,{new:true})
+        if(!t)
+            res.send({error:'Update::transaction not found'})
+        user.save()
+        res.send(t)
+    }catch(err){
+        res.send({eror:err.message})
     }
 })
 
