@@ -10,7 +10,7 @@ const bookSchema = new mongoose.Schema({
         required:true
     },
     roomId:{
-        type:Number,
+        type:String,
         required:true
     },
     created:{
