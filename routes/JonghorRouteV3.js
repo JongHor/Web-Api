@@ -42,6 +42,16 @@ router.post('/users/signup',async (req,res) => {
     }
 })
 
+router.put('/users/book',async (req,res) => {
+    try {
+        const user = req.user
+        await User.findOneAndUpdate(user, req.body.book);
+        res.send({user})
+    } catch (error){
+        res.send({error:error.message})
+    }
+})
+
 router.post('/users/login',async (req,res) => {
     try{
         const {email, password } = req.body
