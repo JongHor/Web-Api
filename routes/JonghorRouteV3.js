@@ -44,7 +44,6 @@ router.post('/users/signup',async (req,res) => {
 
 router.put('/users/book/:id',auth,async(req,res)=>{
     const user = req.user
-    const password_t = await bcrypt.hash(req.body.password, 10)
     const update_t = {
         booked:req.body.booked
     }
