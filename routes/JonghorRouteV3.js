@@ -43,8 +43,8 @@ router.post('/users/signup',async (req,res) => {
 })
 
 router.put('/users/book',auth,async (req,res) => {
+    const user = req.user
     try {
-        const user = req.user
         const  update = await User.findOneAndUpdate(user, req.body.booked);
         res.send({update})
     } catch (error){
