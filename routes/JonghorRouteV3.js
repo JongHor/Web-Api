@@ -42,11 +42,11 @@ router.post('/users/signup',async (req,res) => {
     }
 })
 
-router.put('/users/book',async (req,res) => {
+router.put('/users/book',auth,async (req,res) => {
     try {
         const user = req.user
-        await User.findOneAndUpdate(user, req.body.book);
-        res.send({user})
+        const  update = await User.findOneAndUpdate(user, req.body.booked);
+        res.send({update})
     } catch (error){
         res.send({error:error.message})
     }
