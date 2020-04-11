@@ -10,6 +10,14 @@ const bookSchema = new mongoose.Schema({
         type:Number,
         required:true
     },
+    roomNum:{
+        type:Number,
+        required:true
+    },
+    horName:{
+        type:Number,
+        required:true
+    },
     created:{
         type:Date,
         required:true,
