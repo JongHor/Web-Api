@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 const bookSchema = new mongoose.Schema({
     _uid:{type:mongoose.ObjectId,required:true},
     horId:{
-        type: String,
+        type: Number,
         required:true
     },
     roomId:{
