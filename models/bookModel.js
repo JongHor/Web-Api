@@ -1,7 +1,6 @@
 const mongoose = require("mongoose")
 
 const bookSchema = new mongoose.Schema({
-    _uid:{type:mongoose.ObjectId,required:true},
     userId: {
         type: String,
         required:true

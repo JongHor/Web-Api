@@ -190,6 +190,7 @@ router.get("/:uid/hor",(req,res,next)=>{
 router.post('/book',auth,async (req,res) => {
     const user = req.user
     const t = new Book(req.body)
+    t._uid = user._id
 
     try{
         await t.save() 
