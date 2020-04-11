@@ -11,11 +11,11 @@ const bookSchema = new mongoose.Schema({
         required:true
     },
     roomNum:{
-        type:Number,
+        type:String,
         required:true
     },
     horName:{
-        type:Number,
+        type:String,
         required:true
     },
     created:{
