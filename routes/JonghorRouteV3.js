@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs')
 // import model
 const Hor = require('../models/horModel')
 const User = require('../models/userModel')
+const Book = require('../models/bookModel')
 
 const mongoose = require('mongoose')
 const conStr  = process.env.DATABASE_URL 
@@ -185,4 +186,17 @@ router.get("/:uid/hor",(req,res,next)=>{
     res.json({uid:req.params.uid,hor:hor})
 })
 
+
+router.post('/book',auth,async (req,res) => {
+    const user = req.user
+    const t = new Book(req.body)
+
+    try{
+        await t.save() 
+        res.status(200).json(t)
+    }
+    catch (error){
+        res.status(500).json({error:error.message})
+    }
+})
 module.exports = router
