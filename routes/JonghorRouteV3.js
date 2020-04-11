@@ -215,7 +215,7 @@ router.get('/book/:id',auth, async(req,res,next) => {
 router.delete('/book/:id' , auth ,async (req,res)=>{
     const user = req.user
     try{
-        const t = await Book.findByIdAndDelete({_uid:req.params.id})
+        const t = await Book.findByIdAndDelete({_id:req.params.id})
         res.status(200).json({message:"delete successful!"})
     }catch(err){
         res.status(500).json({eror:err.message})
