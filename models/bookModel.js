@@ -1,16 +1,13 @@
 const mongoose = require("mongoose")
 
 const bookSchema = new mongoose.Schema({
-    userId: {
-        type: String,
-        required:true
-    },
+    _uid:{type:mongoose.ObjectId,required:true},
     horId:{
         type: String,
         required:true
     },
     roomId:{
-        type:String,
+        type:Number,
         required:true
     },
     created:{
