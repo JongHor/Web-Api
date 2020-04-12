@@ -3,12 +3,7 @@ const router = express.Router()
 require('dotenv').config()
 const cors = require('cors');
 const bcrypt = require('bcryptjs')
-express.use((req, res, next) => {
-        res.header('Access-Control-Allow-Origin', 'https://jonghor-ba5d2.web.app')
-        res.header('Access-Control-Allow-Methods','POST, GET, PUT, PATCH, DELETE, OPTIONS')
-        res.header('Access-Control-Allow-Headers','Content-Type, Option, Authorization')
-        return next()
-     })
+
 var corsOptions = {
         origin: 'https://jonghor-ba5d2.web.app',
         optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
