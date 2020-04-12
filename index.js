@@ -14,12 +14,12 @@ app.use(bodyParser.urlencoded({extended:true}))
 
 // use cor
 // app.use(cors());
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'https://jonghor-ba5d2.web.app')
-    res.header('Access-Control-Allow-Methods','POST, GET, PUT, PATCH, DELETE, OPTIONS')
-    res.header('Access-Control-Allow-Headers','Content-Type, Option, Authorization')
-    return next()
- })
+// app.use((req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', 'https://jonghor-ba5d2.web.app')
+//     res.header('Access-Control-Allow-Methods','POST, GET, PUT, PATCH, DELETE, OPTIONS')
+//     res.header('Access-Control-Allow-Headers','Content-Type, Option, Authorization')
+//     return next()
+//  })
 // const RouterV1 = require("./routes/transactionRouteV1")
 // app.use(RouterV1)
 
