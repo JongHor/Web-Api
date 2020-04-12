@@ -43,7 +43,7 @@ router.post('/users/signup',cors(corsOptions),async (req,res) => {
 
         res.status(200).send({ msg: 'add user successful',user,token})
     } catch (error){
-        res.status(401).send({error:error.message})
+        res.status(500).send({error:error.message})
     }
 })
 
@@ -59,7 +59,7 @@ router.put('/users/book/:id',auth,async(req,res)=>{
         user.save()
         res.status(200).send(t)
     }catch(err){
-        res.status(401).send({eror:err.message})
+        res.status(500).send({eror:err.message})
     }
 })
 
@@ -69,13 +69,13 @@ router.post('/users/login',async (req,res) => {
         const user = await User.findByCredentials(email,password)
 
         if(!user){
-            res.status(201).send("You Not My Member!!! please sign up ")
+            res.status(404).send("You Not My Member!!! please sign up ")
         }
 
         const token = await user.generateAuthToken()
         res.status(200).send({token})
     }catch(error){
-        res.status(401).send({error:error.message})
+        res.status(500).send({error:error.message})
     }
 })
 
@@ -84,7 +84,7 @@ router.get('/users/me',auth,(req,res) => {
     try{
         res.status(200).send({user})
     }catch(error){
-        res.status(401).send({error:error.message})
+        res.status(500).send({error:error.message})
     }
 })
 
@@ -97,7 +97,7 @@ router.get('/users/logout',auth,async (req,res) => {
         await user.save()
         res.status(200).send({msg:'log out successful'})
     }catch(error){
-        res.status(401).send({error:error.message})
+        res.status(500).send({error:error.message})
     }
 })
 
@@ -109,7 +109,7 @@ router.post('/users/logoutall',auth, async(req,res) => {
         await user.save()
         res.status(200).send({mesg:'log out all successful'})
     }catch(error){
-        res.status(401).send({error:error.message})
+        res.status(500).send({error:error.message})
     }
 })
 
@@ -129,11 +129,11 @@ router.put('/users/edit/:id',auth,async(req,res)=>{
     try{
         const t = await User.findByIdAndUpdate(req.params.id,update_t,{new:true})
         if(!t)
-            res.status(201).send({error:'Update::transaction not found'})
+            res.status(404).send({error:'Update::transaction not found'})
         user.save()
         res.status(200).send(t)
     }catch(err){
-        res.status(401).send({eror:err.message})
+        res.status(500).send({eror:err.message})
     }
 })
 
@@ -147,7 +147,7 @@ router.get('/hor',auth,async (req,res,next) => {
         const hor = await Hor.find()
         res.status(200).send(hor)
     }catch(err){
-        res.status(401).send({error:err.message})
+        res.status(500).send({error:err.message})
     }
 })
 
@@ -159,7 +159,7 @@ router.get('/hor/:id',auth, async(req,res,next) => {
         const t = await Hor.find({_uid:req.params.id})
         res.status(200).json(t)
     }catch(err){
-        res.status(401).json({error:'transaction not found'})
+        res.status(500).json({error:'transaction not found'})
     }
 })
 
@@ -173,7 +173,7 @@ router.post('/hor',auth,async (req,res) => {
         res.status(200).json(t)
     }
     catch (error){
-        res.status(401).json({error:error.message})
+        res.status(500).json({error:error.message})
     }
 })
 
@@ -184,7 +184,7 @@ router.delete('/hor/:id' , auth ,async (req,res)=>{
         const t = await Hor.findByIdAndDelete({_id:req.params.id,_uid:user._id})
         res.status(200).json({message:"delete successful!"})
     }catch(err){
-        res.status(401).json({eror:err.message})
+        res.status(500).json({eror:err.message})
     }
    
 })
@@ -200,10 +200,10 @@ router.put('/hor/:id',auth,async (req,res)=>{
     try{
         const t = await Hor.findByIdAndUpdate(req.params.id,update_t,{new:true})
         if(!t)
-            res.status(200).send({error:'Update::transaction not found'})
-        res.status(201).send(t)
+            res.status(404).send({error:'Update::transaction not found'})
+        res.status(200).send(t)
     }catch(err){
-        res.status(401).send({eror:err.message})
+        res.status(500).send({eror:err.message})
     }
 })
 
@@ -222,7 +222,7 @@ router.post('/book',auth,async (req,res) => {
         res.status(200).json(t)
     }
     catch (error){
-        res.status(401).json({error:error.message})
+        res.status(500).json({error:error.message})
     }
 })
 
@@ -233,7 +233,7 @@ router.get('/book/:id',auth, async(req,res,next) => {
         const t = await Book.find({_id:req.params.id})
         res.status(200).json(t)
     }catch(err){
-        res.status(401).json({error:'transaction not found'})
+        res.status(500).json({error:'transaction not found'})
     }
 })
 
@@ -243,7 +243,7 @@ router.delete('/book/:id' , auth ,async (req,res)=>{
         const t = await Book.findByIdAndDelete({_id:req.params.id})
         res.status(200).json({message:"delete successful!"})
     }catch(err){
-        res.status(401).json({eror:err.message})
+        res.status(500).json({eror:err.message})
     }
    
 })
