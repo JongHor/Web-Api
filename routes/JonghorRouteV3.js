@@ -157,9 +157,9 @@ router.get('/hor/:id',auth, async(req,res,next) => {
     const user = req.user
     try{
         const t = await Hor.find({_uid:req.params.id})
-        res.status(200).send(json(t))
+        res.status(200).json(t)
     }catch(err){
-        res.status(401).send(json({error:'transaction not found'}))
+        res.status(401).json({error:'transaction not found'})
     }
 })
 
@@ -170,10 +170,10 @@ router.post('/hor',auth,async (req,res) => {
 
     try{
         await t.save() 
-        res.status(200).send(json(t))
+        res.status(200).json(t)
     }
     catch (error){
-        res.status(401).send(json({error:error.message}))
+        res.status(401).json({error:error.message})
     }
 })
 
@@ -182,9 +182,9 @@ router.delete('/hor/:id' , auth ,async (req,res)=>{
     const user = req.user
     try{
         const t = await Hor.findByIdAndDelete({_id:req.params.id,_uid:user._id})
-        res.status(200).send(json({message:"delete successful!"}))
+        res.status(200).json({message:"delete successful!"})
     }catch(err){
-        res.status(401).send(json({eror:err.message}))
+        res.status(401).json({eror:err.message})
     }
    
 })
@@ -219,10 +219,10 @@ router.post('/book',auth,async (req,res) => {
 
     try{
         await t.save() 
-        res.status(200).send(json(t))
+        res.status(200).json(t)
     }
     catch (error){
-        res.status(401).send(json({error:error.message}))
+        res.status(401).json({error:error.message})
     }
 })
 
@@ -231,9 +231,9 @@ router.get('/book/:id',auth, async(req,res,next) => {
     const user = req.user
     try{
         const t = await Book.find({_id:req.params.id})
-        res.status(200).send(json(t))
+        res.status(200).json(t)
     }catch(err){
-        res.status(401).send(json({error:'transaction not found'}))
+        res.status(401).json({error:'transaction not found'})
     }
 })
 
@@ -241,9 +241,9 @@ router.delete('/book/:id' , auth ,async (req,res)=>{
     const user = req.user
     try{
         const t = await Book.findByIdAndDelete({_id:req.params.id})
-        res.status(200).send(json({message:"delete successful!"}))
+        res.status(200).json({message:"delete successful!"})
     }catch(err){
-        res.status(401).send(json({eror:err.message}))
+        res.status(401).json({eror:err.message})
     }
    
 })
