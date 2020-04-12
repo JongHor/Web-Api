@@ -55,7 +55,7 @@ router.put('/users/book/:id',auth,async(req,res)=>{
     try{
         const t = await User.findByIdAndUpdate(req.params.id,update_t,{new:true})
         if(!t)
-            res.status(201)({error:'Update::transaction not found'})
+            res.status(404)({error:'Update::transaction not found'})
         user.save()
         res.status(200).send(t)
     }catch(err){
