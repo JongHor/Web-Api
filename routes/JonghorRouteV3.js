@@ -43,7 +43,7 @@ router.post('/users/signup',cors(corsOptions),async (req,res) => {
 
         res.status(200).send({ msg: 'add user successful',user,token})
     } catch (error){
-        res.status(201).send({error:error.message})
+        res.status(201).send(error.message)
     }
 })
 
@@ -59,7 +59,7 @@ router.put('/users/book/:id',auth,async(req,res)=>{
         user.save()
         res.status(200).send(t)
     }catch(err){
-        res.status(201).send({eror:err.message})
+        res.status(201).send(err.message)
     }
 })
 
